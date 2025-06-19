@@ -1,8 +1,8 @@
 import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { UserProfileEntity } from '../../user-profile/entities/user-profile.entity';
-import { BaseEntity } from '../entities/../entities/../../commom/entities/base.entity';
+import { BaseEntity } from '../../commom/entities/base.entity';
 
-import { AffiliationEntity } from '../entities/../entities/../../affiliation/entities/affiliation.entity';
+import { AffiliationEntity } from '../../affiliation/entities/affiliation.entity';
 
 @Entity('user_accounts')
 export class UserAccountEntity extends BaseEntity {

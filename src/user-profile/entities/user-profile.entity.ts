@@ -1,5 +1,5 @@
 import { Entity, Column, OneToOne, JoinColumn } from 'typeorm';
-import { BaseEntity } from '../entities/../entities/../../commom/entities/base.entity';
+import { BaseEntity } from '../../commom/entities/base.entity';
 import { UserAccountEntity } from '../../user-account/entities/user-account.entity'; // Import UserAccountEntity
 
 @Entity('user_profiles')

@@ -1,14 +1,15 @@
+// src/organization/entities/organization.entity.ts
 import { Entity, Column, OneToMany } from 'typeorm';
-import { BaseEntity } from '../entities/../entities/../../commom/entities/base.entity';
-import { BranchEntity } from '../entities/../entities/../../branch/entities/branch.entity';
-import { AffiliationEntity } from '../entities/../entities/../../affiliation/entities/affiliation.entity';
+import { BaseEntity } from '../../commom/entities/base.entity'; // Corrected path assumption
+import { BranchEntity } from '../../branch/entities/branch.entity';
+import { AffiliationEntity } from '../../affiliation/entities/affiliation.entity';
 
 @Entity('organizations') // Table name
 export class OrganizationEntity extends BaseEntity {
   @Column({ unique: true })
   name: string;
 
-  @Column({ nullable: true }) // Assuming optional
+  @Column({ nullable: false }) // <-- CHANGE from nullable: true to nullable: false (or remove it as false is default)
   phoneNumber: string;
 
   @Column({ unique: true })
