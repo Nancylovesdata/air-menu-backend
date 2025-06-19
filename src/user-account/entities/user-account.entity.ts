@@ -1,37 +1,37 @@
-import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-import { UserProfileEntity } from '../../user-profile/entities/user-profile.entity';
+// src/user-account/entities/user-account.entity.ts
+import { Entity, Column, OneToOne, OneToMany } from 'typeorm'; // Remove JoinColumn import
 import { BaseEntity } from '../../commom/entities/base.entity';
-
+import { UserProfileEntity } from '../../user-profile/entities/user-profile.entity';
 import { AffiliationEntity } from '../../affiliation/entities/affiliation.entity';
 
 @Entity('user_accounts')
 export class UserAccountEntity extends BaseEntity {
   @Column({ unique: true })
-  username: string;
+  email: string;
 
   @Column()
-  password: string; // Hashed password
+  passwordHash: string;
+
+  @Column({ default: false })
+  twoFactorEnabled: boolean;
 
   @Column({ nullable: true })
-  twoFactorToken: string;
+  twoFactorToken?: string;
 
-  @Column({ type: 'timestamp with time zone', nullable: true })
-  twoFactorTokenExpiration: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  twoFactorTokenExpiration?: Date;
 
   @Column({ nullable: true })
-  twoFactorTokenReference: string; // To track which 2FA method (e.g., 'sms', 'authenticator')
+  twoFactorTokenReference?: string;
 
-  @Column({ nullable: true }) // A JWT session ID, or a reference to a session store
-  session: string;
-
-  // Relation to UserProfile (One-to-One)
+  // One-to-One relationship with UserProfileEntity
+  // This side is the INVERSE side, it doesn't hold the foreign key
   @OneToOne(() => UserProfileEntity, (userProfile) => userProfile.userAccount, {
     cascade: true,
-  }) // cascade for saving/deleting profile with account
-  @JoinColumn() // This side owns the foreign key
-  userProfile: UserProfileEntity;
-
-  // Relation to Affiliation (One-to-Many - a user account can have multiple affiliations)
+    onDelete: 'CASCADE',
+  })
+  userProfile: UserProfileEntity; // No @JoinColumn here
+  // Affiliation One-to-Many remains the same
   @OneToMany(() => AffiliationEntity, (affiliation) => affiliation.userAccount)
   affiliations: AffiliationEntity[];
 }
