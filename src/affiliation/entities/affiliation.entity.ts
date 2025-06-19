@@ -1,18 +1,18 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { BaseEntity } from '../entities/../entities/../../commom/entities/base.entity';
-import { UserAccountEntity } from '../../user-account/entities/user-account.entity'; // Import UserAccountEntity
-import { OrganizationEntity } from '../../organization/entities/organization.entity'; // Import OrganizationEntity
+import { BaseEntity } from '../../common/entities/base.entity';
+import { UserAccountEntity } from '../../user-account/entities/user-account.entity';
+import { OrganizationEntity } from '../../organization/entities/organization.entity';
 
 @Entity('affiliations')
 export class AffiliationEntity extends BaseEntity {
   @Column()
-  userAccountId: string; // Foreign key
+  userAccountId: string;
 
   @Column()
-  organizationId: string; // Foreign key
+  organizationId: string;
 
   @Column()
-  role: string; // e.g., 'admin', 'employee', 'manager' within this organization
+  role: string;
 
   @ManyToOne(
     () => UserAccountEntity,

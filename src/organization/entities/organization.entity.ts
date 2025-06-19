@@ -1,14 +1,14 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { BaseEntity } from '../entities/../entities/../../commom/entities/base.entity';
-import { BranchEntity } from '../entities/../entities/../../branch/entities/branch.entity';
-import { AffiliationEntity } from '../entities/../entities/../../affiliation/entities/affiliation.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { BranchEntity } from '../../branch/entities/branch.entity';
+import { AffiliationEntity } from '../../affiliation/entities/affiliation.entity';
 
-@Entity('organizations') // Table name
+@Entity('organizations')
 export class OrganizationEntity extends BaseEntity {
   @Column({ unique: true })
   name: string;
 
-  @Column({ nullable: true }) // Assuming optional
+  @Column({ nullable: true })
   phoneNumber: string;
 
   @Column({ unique: true })

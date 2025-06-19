@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 export abstract class BaseEntity {
-  @PrimaryGeneratedColumn('uuid') // Use 'uuid' for string UUIDs
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'boolean', default: true })
