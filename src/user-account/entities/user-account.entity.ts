@@ -1,10 +1,22 @@
-import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+// src/user-account/entities/user-account.entity.ts
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  OneToOne,
+  OneToMany,
+} from 'typeorm';
 import { UserProfileEntity } from '../../user-profile/entities/user-profile.entity';
-import { BaseEntity } from '../../common/entities/base.entity';
 import { AffiliationEntity } from '../../affiliation/entities/affiliation.entity';
 
 @Entity('user_accounts')
-export class UserAccountEntity extends BaseEntity {
+export class UserAccountEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column({ unique: true })
   username: string;
 
@@ -12,25 +24,32 @@ export class UserAccountEntity extends BaseEntity {
   password: string;
 
   @Column({ nullable: true })
-  twoFactorToken: string;
+  twoFactorToken?: string;
 
-  @Column({ type: 'timestamp with time zone', nullable: true })
-  twoFactorTokenExpiration: Date;
-
-  @Column({ nullable: true })
-  twoFactorTokenReference: string;
+  @Column({ type: 'timestamp', nullable: true })
+  twoFactorTokenExpiration?: Date;
 
   @Column({ nullable: true })
-  session: string;
+  twoFactorTokenReference?: string;
 
-  // Relation to UserProfile (One-to-One)
-  @OneToOne(() => UserProfileEntity, (userProfile) => userProfile.userAccount, {
-    cascade: true,
-  })
-  @JoinColumn()
+  @Column({ nullable: true })
+  session?: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date;
+
+  @Column({ default: true })
+  active: boolean;
+
+  @OneToOne(() => UserProfileEntity, (userProfile) => userProfile.userAccount)
   userProfile: UserProfileEntity;
 
-  // Relation to Affiliation (One-to-Many - a user account can have multiple affiliations)
   @OneToMany(() => AffiliationEntity, (affiliation) => affiliation.userAccount)
   affiliations: AffiliationEntity[];
 }

@@ -1,21 +1,40 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
-import { BaseEntity } from '../../common/entities/base.entity';
+// src/branch/entities/branch.entity.ts
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { OrganizationEntity } from '../../organization/entities/organization.entity';
 
 @Entity('branches')
-export class BranchEntity extends BaseEntity {
+export class BranchEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  organizationId: string;
+
   @Column()
   name: string;
 
   @Column({ unique: true })
   branchCode: string;
 
-  @Column()
-  organizationId: string;
-  @ManyToOne(
-    () => OrganizationEntity,
-    (organization) => organization.branches,
-    { onDelete: 'CASCADE' },
-  )
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date;
+
+  @ManyToOne(() => OrganizationEntity, (organization) => organization.branches)
+  @JoinColumn({ name: 'organizationId' })
   organization: OrganizationEntity;
 }
